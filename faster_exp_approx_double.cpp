@@ -29,6 +29,7 @@ int64_t __double_as_int (double a) { int64_t r; memcpy (&r, &a, sizeof r); retur
 
 // From:  https://stackoverflow.com/questions/65554112/fast-double-exp2-function-in-c/65562273#65562273s
 /* compute 2**p, for p in [-1022, 1024). Maximum relative error: 4.93e-5. RMS error: 9.91e-6 */
+// Note:  modified -  uses some FMA operations 
 // [[Rcpp::export]]
 double fast_exp_approx_double (double p)
 {
