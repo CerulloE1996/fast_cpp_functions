@@ -10,9 +10,9 @@
 #include <unsupported/Eigen/SpecialFunctions>
 
 
-#define EIGEN_USE_MKL_ALL
-#include "Eigen/src/Core/util/MKL_support.h"
-
+// #define EIGEN_USE_MKL_ALL
+// #include "Eigen/src/Core/util/MKL_support.h"
+// 
 
 
 // [[Rcpp::plugins(cpp17)]]      
@@ -35,13 +35,13 @@ double fast_ldexp (double a, int i)
 { 
   int64_t ia = ( (uint64_t)i << 52) + __double_as_int (a); // scale by 2**i
   a = __int_as_double (ia);
-  if ((unsigned int)(i + 1021) > 500) { // |i| > 125
-    i = (i ^ (1021 << 52)) - i; // ((i < 0) ? -125 : 125) << 52
+  if ((unsigned int)(i + 1021ULL) > 500) { // |i| > 125
+    i = (i ^ (1021ULL << 52)) - i; // ((i < 0) ? -125 : 125) << 52
     a = __int_as_double (ia - i); // scale by 2**(+/-125)
-    a = a * __int_as_double ((1023 << 52) + i); // scale by 2**(+/-(i%125))
-  }  
+    a = a * __int_as_double ((1023ULL << 52) + i); // scale by 2**(+/-(i%125))
+  } 
   return a;
-}  
+} 
 
 
 
